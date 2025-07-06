@@ -9,7 +9,7 @@
 - Filtered diamond dataset for prices under $3,000.
 - Created a report with business insights.
 
-**Key Insight**: [Add your finding, e.g., “Recommended Premium cut, I color, VS2 clarity for 15% cost savings.”]
+**Key Insight**: [Recommended Premium cut, I color, VS2 clarity diamonds for optimal value under $3,000.]
 
 **Files**:
 - [Diamonds_Analysis.Rmd](Diamonds_under_3000.Rmd): R Markdown with code.
