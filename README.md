@@ -12,7 +12,7 @@
 **Key Insight**: [Add your finding, e.g., “Recommended Premium cut, I color, VS2 clarity for 15% cost savings.”]
 
 **Files**:
-- [Diamonds_Analysis.Rmd](Diamonds_Analysis.Rmd): R Markdown with code.
-- [Diamonds_Report.pdf](Diamonds_Report.pdf): Full report.
+- [Diamonds_Analysis.Rmd](Diamonds_under_3000.Rmd): R Markdown with code.
+- [Diamonds_Report.pdf](Diamonds_under_3000.pdf): Full report.
 
 **How to View**: Open `.Rmd` in RStudio or view the PDF.
