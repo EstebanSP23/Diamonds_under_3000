@@ -1,0 +1,292 @@
+---
+title: "Finding the Best Diamond Under $3000"
+author: "Esteban SP"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+    number_sections: false
+    latex_engine: xelatex
+    includes:
+      in_header: header.tex
+  html_document:
+    toc: true
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, fig.width = 6, fig.height = 4)
+```
+
+```{r, include = FALSE}
+library(tidyverse)
+```
+
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+
+Buying a diamond can be overwhelming. There are many factors to consider: size, color, clarity, and of course, price. In this short report, I set out to answer a simple question:
+
+> What is the best diamond I can buy with a budget of $3,000?
+
+Using data from the **diamonds dataset**, I filtered and analyzed a wide variety of diamonds to identify the options that give the best balance between **quality** and **carat size**, while staying within the budget.
+
+This report summarizes the process and presents the top diamond options based on that analysis.
+
+\section*{Methodology}
+\addcontentsline{toc}{section}{Methodoloy}
+
+To identify the best diamonds under $3,000, I applied a specific set of filters based on how different diamond characteristics affect visual appeal, perceived quality, and overall value. The goal was to balance **aesthetics and size**, while staying within a strict budget.
+
+### ✅ 1. Prioritizing Cut: The Sparkle Factor
+
+Cut is arguably the **most important characteristic** in a diamond's visual appeal. A well-cut diamond reflects light better, appearing **brighter, more brilliant, and even larger** than a poorly cut stone of the same carat.
+
+In the diamonds dataset, cut is graded as:
+
+- **Ideal** (highest quality)
+- **Premium**
+- **Very Good**
+- **Good**
+- **Fair**
+
+Only **"Ideal"** and **"Premium"** cuts were included in this analysis because:
+
+- These are the **top-performing cuts** in terms of light reflection
+- Cut is the one quality that should **never be compromised** if the goal is strong visual impact
+
+By focusing on these top grades, we ensure that every diamond in the selection *delivers maximum sparkle* — which can often have more visual impact than a small increase in size.
+
+---
+
+### 🎨 2. Color: Some Room to Breathe
+
+Color in diamonds is graded from **D (colorless)** to **Z (light yellow/brown)**. For this analysis, I chose diamonds with color grades between **F and I**. Here's why:
+
+- **F and G**: Considered colorless to near-colorless; indistinguishable from D/E to the naked eye
+- **H and I**: Slight hints of warmth, but still appear white when set in jewelry (especially yellow or rose gold)
+
+Allowing diamonds up to **I** in color lets us:
+
+- Stay within budget
+- Afford a larger carat size
+- Maintain great visual quality for most wearers
+
+This is a reasonable compromise that **maximizes size without sacrificing visible whiteness**.
+
+---
+
+### 🔎 3. Clarity: Focused on “Eye Clean”
+
+Clarity refers to the presence of internal flaws (**inclusions**) or external blemishes. While these imperfections are often microscopic, they can affect how clean or sparkly a diamond appears.
+
+In the diamonds dataset, clarity is graded as:
+
+- **IF** (Internally Flawless)
+- **VVS1**, **VVS2** (Very Very Slight Inclusions)
+- **VS1**, **VS2** (Very Slight Inclusions)
+- **SI1**, **SI2** (Slight Inclusions)
+- **I1**, **I2**, **I3** (Included — visible flaws)
+
+This analysis focuses on **VS1** and **VS2**, and here’s why:
+
+- These diamonds are generally **“eye clean”**, meaning inclusions are not visible to the naked eye
+- Higher clarity (VVS1, IF) increases price **without noticeable visual improvement**
+- Lower clarity (SI1 and below) increases the risk of **visible flaws**, especially in larger stones
+
+This makes **VS1 and VS2** a sweet spot — maintaining high visual quality while allowing us to stay within budget and prioritize size.
+
+---
+
+### 💎 4. Carat: Maximize Size Without Sacrificing Beauty
+
+Once quality is locked in — **cut**, **color**, and **clarity** — the final and most flexible factor is **carat size**.
+
+- Larger carats look more impressive on a ring
+- A diamond with **Ideal cut** and **VS2 clarity** can look stunning even at 0.75–0.85 carats
+- We focus on **getting the largest carat possible** within the budget and quality filters
+
+By maximizing size only after securing great optical characteristics, we ensure that the final selection still looks **high-end, balanced, and brilliant**.
+
+---
+
+### ✅ 5. Price: Finding the Best Value Within Budget
+
+All diamonds in this analysis are limited to a **$3,000 USD** budget. Once we’ve locked in cut, color, and clarity, price becomes a tool for **maximizing value**, not just minimizing cost.
+
+Rather than looking at total price alone, we also consider **price per carat** — a helpful metric to identify which diamonds offer **more size for the money**.
+
+- **Lower price per carat** → better value for similar quality
+- Useful for comparing diamonds of different sizes and proportions
+- Helps spot hidden gems: larger stones that still meet quality standards without exceeding budget
+
+This approach ensures that we're not just staying under budget — we're making every dollar count.
+
+---
+
+This strategy ensures that every diamond in the final selection is:
+
+- **Expertly cut** for maximum sparkle  
+- **Visually clean** with no flaws visible to the naked eye  
+- **Impressively sized**, given the quality constraints  
+- **Well-priced**, offering strong value within the $3,000 budget 
+
+\section*{Visual Analysis}
+\addcontentsline{toc}{section}{Visual Analysis}
+
+### 1. Price per Carat vs Carat Size
+
+When evaluating diamonds, one way to compare their value is by looking at **price per carat**. 
+
+A **carat** is a unit of weight used for diamonds. Naturally, larger diamonds are more expensive. But two diamonds of the *same size* can have very different prices depending on cut, clarity, and color.
+
+By calculating **price per carat**, we can understand how much we’re paying for each unit of diamond weight. This helps us:
+
+- Spot diamonds that offer **more size for the money**
+- Compare value across diamonds of different sizes
+
+The chart below shows how price per carat varies with the total carat size.
+
+
+```{r, echo = FALSE, message = FALSE, fig.align = "center"}
+diamonds %>% 
+  filter(
+    price <= 3000,
+    cut %in% c("Ideal", "Premium"),
+    color %in% c("F", "G", "H", "I"),
+    clarity %in% c("VS1", "VS2"),
+    carat >= 0.7
+  ) %>%
+  mutate(price_per_carat = price / carat) %>% 
+  ggplot(aes(x = carat, y = price_per_carat, color = clarity)) +
+  geom_point(alpha = 0.6, size = 2) +
+  geom_smooth(se = FALSE, method = "loess", color = "black", linetype = "dashed") +
+  facet_wrap(~cut) +
+  labs(
+    title = "How Much Does Each Carat Cost?",
+    subtitle = "Among diamonds under $3000 with good quality",
+    x = "Carat (Size)", 
+    y = "Price per Carat (USD)"
+  ) +
+  theme_minimal()
+```
+
+The dashed line shows the average trend: as diamond size increases, the price per carat generally decreases.
+
+Diamonds **below the line** are especially interesting — they cost **less per carat** than expected for their size. These can be considered **great value options**.
+
+On the other hand, diamonds **above the line** cost **more per carat** than average. This might be due to exceptional but unfiltered features (like polish or symmetry), or they might simply be **less cost-efficient**.
+
+By focusing on diamonds **near or below the trend line**, we can find options that offer **more size for the money**, without compromising on quality.
+
+
+### 2. Total Price vs Carat Size
+
+This second plot shows the **total price** of each diamond depending on its size. Again, clarity is represented by color, and cut type is shown in panels.
+
+```{r, echo = FALSE, message = FALSE, fig.align = "center"}
+diamonds %>% 
+  filter(
+    price <= 3000,
+    cut %in% c("Ideal", "Premium"),
+    color %in% c("F", "G", "H", "I"),
+    clarity %in% c("VS1", "VS2"),
+    carat >= 0.7
+  ) %>%
+  mutate(price_per_carat = price / carat) %>% 
+  ggplot(aes(x = carat, y = price, color = clarity)) +
+  geom_point(alpha = 0.6, size = 2) + 
+  geom_smooth(se = FALSE, method = "loess", color = "black", linetype = "dashed") +
+  facet_wrap(~cut) +
+  labs(
+    title = "Price of Diamonds by Size",
+    subtitle = "Under $3000, filtering by cut, color, and clarity",
+    x = "Carat (Size)", 
+    y = "Price (USD)"
+  ) +
+  theme_minimal()
+```
+
+This plot shows how total price increases with carat size — which is expected, since larger diamonds typically cost more. The dashed line represents the average price trend based on size.
+
+What’s useful here is how the chart helps us spot **which diamonds come close to the $3,000 budget** while still offering a **relatively large size**. Diamonds near the top right corner are the largest and most expensive within our filtered selection.
+
+While higher prices often mean larger stones, some diamonds stand out by offering **more carat for the same price**. These could be strong contenders if you're looking to maximize size without compromising on quality.
+
+This chart complements the first one by showing **absolute spending**, not just cost efficiency — helping us find the biggest, high-quality diamonds that stay within budget.
+
+\newpage
+\section*{Recommended Diamonds}
+\addcontentsline{toc}{section}{Recommended Diamonds}
+
+Based on the filtered data, here are the **top 5 diamonds** that offer the best combination of **size**, **clarity**, and **value** within the $3,000 budget.
+
+```{r, echo = FALSE, message = FALSE, fig.align = "center"}
+best_diamonds <- diamonds %>% 
+  filter(
+    price <= 3000,
+    cut %in% c("Ideal", "Premium"),
+    color %in% c("F", "G", "H", "I"),
+    clarity %in% c("VS1", "VS2"),
+    carat >= 0.7
+  ) %>%
+  mutate(price_per_carat = price / carat) %>%
+  arrange(desc(carat), price_per_carat) %>% 
+  slice_head(n = 5)  # show top 5 options
+```
+
+```{r echo=FALSE, fig.align="center", message=FALSE, warning=FALSE}
+library(dplyr)
+library(scales)
+library(knitr)
+library(kableExtra)
+
+# Create display version of top picks
+best_diamonds_display <- best_diamonds %>%
+  mutate(
+    Price = dollar(price),
+    `Price per Carat` = dollar(price_per_carat),
+    Carat = round(carat, 2),
+    Why = case_when(
+      row_number() == 1 ~ "Largest diamond under budget, with acceptable clarity and cut",
+      row_number() == 2 ~ "Slightly higher price, but still 0.90 carat with strong value",
+      row_number() == 3 ~ "Highest-priced 0.90, but still within budget and top-tier size",
+      row_number() == 4 ~ "Nearly full size, better clarity (VS1) — great balance",
+      TRUE ~ "Ideal cut with solid size — best overall balance for brilliance and value"
+    )
+  ) %>%
+  select(Carat, Price, `Price per Carat`, Cut = cut, Color = color, Clarity = clarity, `Why this Pick` = Why)
+
+# Display table with centered text
+kable(best_diamonds_display, caption = "Top 5 Diamond Options under \\$3000", booktabs = TRUE, align = "c", format = "latex") %>%
+  kable_styling(latex_options = c("striped", "hold_position"), 
+                full_width = FALSE, 
+                font_size = 10) %>%
+  column_spec(1, width = "1cm") %>%
+  column_spec(2, width = "1cm") %>%
+  column_spec(3, width = "2cm") %>%
+  column_spec(4, width = "2cm") %>%
+  column_spec(5, width = "1cm") %>%
+  column_spec(6, width = "1cm") %>%
+  column_spec(7, width = "5.5cm", extra_css = "text-align: center;") %>%
+  row_spec(0, align = "c")
+```
+
+These five diamonds were selected by prioritizing **larger carat sizes**, followed by **strong value per carat**, while maintaining excellent cut, clarity, and near-colorless appearance.
+
+All diamonds meet the high standards defined in this report — meaning they will appear bright, clean, and impressive in person.
+
+This selection represents the **best overall balance of size, sparkle, and quality** available under a $3,000 budget.
+
+\section*{Final Thougts}
+\addcontentsline{toc}{section}{Final Thougts}
+
+When buying on a budget, **size** is the most noticeable characteristic to the naked eye. As long as a diamond has an excellent cut and appears eye-clean, a slightly lower color or clarity grade is often imperceptible in real-world conditions. That’s why this selection prioritizes **maximizing carat**, while still ensuring every diamond sparkles brilliantly and remains visually flawless.
+
+Ultimately, finding the right diamond is about making smart trade-offs. The options recommended here offer a balanced combination of **visual impact, quality, and value** — all within the $3,000 limit.
+
+This approach can easily be adapted to suit different preferences, such as stricter color ranges, higher clarity, or even larger sizes (with a different budget).
+
+I hope this report brings clarity to a complex decision and helps guide you toward a diamond that truly stands out.
+
+**Note**: Regardless of size, always ensure your diamond comes with a **certification** from a reputable institution such as **GIA (Gemological Institute of America)**. This guarantees that the diamond's attributes have been evaluated by professionals and match what you're paying for.
