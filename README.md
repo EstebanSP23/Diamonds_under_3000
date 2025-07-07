@@ -30,6 +30,7 @@ best_diamonds_display <- best_diamonds %>%
     Price = dollar(price),
     `Price per Carat` = dollar(price_per_carat),
     Carat = round(carat, 2),
+```
 
 ## Key Visualization
 ![Diamond Price vs. Carat](price_vs_carat.jpeg)
