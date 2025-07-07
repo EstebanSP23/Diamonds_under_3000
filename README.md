@@ -16,3 +16,17 @@
 - [Diamonds_Report.pdf](Diamonds_under_3000.pdf): Full report.
 
 **How to View**: Open `.Rmd` in RStudio or view the PDF.
+
+## Key Code Example
+```{r echo=FALSE, fig.align="center", message=FALSE, warning=FALSE}
+library(dplyr)
+library(scales)
+library(knitr)
+library(kableExtra)
+
+# Create display version of top picks
+best_diamonds_display <- best_diamonds %>%
+  mutate(
+    Price = dollar(price),
+    `Price per Carat` = dollar(price_per_carat),
+    Carat = round(carat, 2),
